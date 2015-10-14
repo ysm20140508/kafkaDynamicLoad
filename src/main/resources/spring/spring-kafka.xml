@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <bean class="com.yunva.kafka.producer.ProducerConfig">
+        <property name="metadata_broker_list" value="${metadata.broker.list}"/>
+        <property name="producer_type" value="${producer.type}" />
+        <property name="request_required_acks" value="${request.required.acks}"/>
+        <property name="serializer_class" value="${serializer.class}" />
+    </bean>
+
+    <bean  id="consumerConfig" class="com.yunva.kafka.consumer.entity.ConsumerConfig">
+        <property name="zookeeper_connect" value="${zookeeper.connect}"/>
+        <property name="zookeeper_session_timeout_ms" value="${zookeeper.session.timeout.ms}" />
+    </bean>
+
+
+</beans>
