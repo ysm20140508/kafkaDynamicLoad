@@ -42,7 +42,7 @@ public class ConsumerThread implements Runnable {
                         ThreadFactory.getIntstant().remove(threadName);
                         for (int index = threads; index > 0; index--) {
                             String indexThreadName = threadName + index;
-                            if (ThreadFactory.getIntstant().contains(indexThreadName)) {
+                            if (ThreadFactory.getIntstant().containsKey(indexThreadName)) {
                                 DateInsertion dateInsertion = (DateInsertion) ThreadFactory.getIntstant().get(indexThreadName);
                                 dateInsertion.stopThread();
                                 ThreadFactory.getIntstant().remove(indexThreadName);
@@ -51,14 +51,14 @@ public class ConsumerThread implements Runnable {
                     }
                 } else if (threadStatus == 1) {
                     ConsumerTemplate consumerTemplate = new ConsumerTemplate();
-                    consumerTemplate.setTableName(threadName);
+                    consumerTemplate.setThreadName(threadName);
                     consumerTemplate.setThrads(threads);
                     consumerTemplate.setTopic(consumerTop.getTopic());
                     consumerTemplate.setGroupId(consumerTop.getGroup());
                     Consumer consumer = new Consumer(consumerConfig, consumerTemplate, jdbcUtils);
                     ExecutorService executorService = Executors.newSingleThreadExecutor();
                     executorService.submit(consumer);
-                    ThreadFactory.getIntstant().put("threadName",consumer);
+                    ThreadFactory.getIntstant().put(threadName,consumer);
                 }
                 Integer id = consumerTop.getId();
                 jdbcUtils.updateSuccess(id);

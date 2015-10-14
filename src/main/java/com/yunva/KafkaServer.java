@@ -28,7 +28,7 @@ public class KafkaServer {
 
         ScheduledExecutorService scheduledExecutorService=Executors.newSingleThreadScheduledExecutor();
         ConsumerThread consumerThread=new ConsumerThread(jdbcUtils,consumerConfig);
-        scheduledExecutorService.scheduleAtFixedRate(consumerThread,1,10,TimeUnit.MINUTES);
+        scheduledExecutorService.scheduleAtFixedRate(consumerThread,1,2,TimeUnit.MINUTES);
 
         logger.info("com.yunva.KafkaServer start successful...");
     }

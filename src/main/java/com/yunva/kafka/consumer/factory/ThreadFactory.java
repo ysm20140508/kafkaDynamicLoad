@@ -11,11 +11,11 @@ import java.util.concurrent.ConcurrentHashMap;
  * Github: https://github.com/ysm20140508
  */
 public class ThreadFactory {
-    public static ConcurrentHashMap<String, Runnable> thradMap = null;
+    public static ConcurrentHashMap<String, Thread> thradMap = null;
 
     public static ConcurrentHashMap getIntstant() {
         if (thradMap == null) {
-            thradMap = new ConcurrentHashMap<String, Runnable>();
+            thradMap = new ConcurrentHashMap<String, Thread>();
             return thradMap;
         }
         return thradMap;

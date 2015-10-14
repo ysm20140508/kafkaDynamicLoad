@@ -54,9 +54,9 @@ public class Consumer extends Thread {
         int index=0;
         for (KafkaStream<byte[], byte[]> stream : streams) {
            if(index<threads && Running){
-               Runnable runnable=new DateInsertion(stream,jdbcUtils);
-               ThreadFactory.getIntstant().put(threadName+(++index),runnable) ;
-               executorService.execute(runnable);
+               Thread thread=new DateInsertion(stream,jdbcUtils);
+               ThreadFactory.getIntstant().put(threadName+(++index),thread) ;
+               executorService.execute(thread);
            }
         }
 
@@ -67,6 +67,7 @@ public class Consumer extends Thread {
      */
     public  void stopThread(){
         Running=false;
+        this.connector.shutdown();
         this.interrupt();
     }
 }
