@@ -7,7 +7,6 @@ import kafka.consumer.KafkaStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.UnsupportedEncodingException;
 
 /**
  * Created by Administrator on 2015-08-29.
@@ -34,7 +33,7 @@ public class DateInsertion extends Thread {
             if (isRunning) {
                 try {
                     jdbcUtils.insert(ObjectUtils.parseString(new String(it.next().message(), "utf-8"), tableName, fieldName));
-                } catch (UnsupportedEncodingException e) {
+                } catch (Exception e) {
                 }
             }
 
