@@ -7,11 +7,10 @@ package com.yunva.kafka.producer;
 import java.util.List;
 
 /**
- *
  * @param <K>
  * @param <V>
  */
-public interface KafkaProducer<K,V> {
+public interface KafkaProducer<K, V> {
     /**
      * @param topic
      * @param data

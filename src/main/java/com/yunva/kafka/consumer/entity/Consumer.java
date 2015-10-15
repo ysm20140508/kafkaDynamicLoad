@@ -20,32 +20,31 @@ import java.util.concurrent.Executors;
  * Created by Administrator on 2015-08-25.
  */
 public class Consumer extends Thread {
-    private  final Logger logger= LoggerFactory.getLogger(Consumer.class);
-    private  ConsumerConnector connector;
-    private  String topic;
-    private  Integer threads;
-    private  String threadName ;
-    private  String tableName;
-    private  String fieldName;
-    private  JdbcUtils jdbcUtils;
-    private  ExecutorService executorService;
-    private  boolean Running=true;
+    private final Logger logger = LoggerFactory.getLogger(Consumer.class);
+    private ConsumerConnector connector;
+    private String topic;
+    private Integer threads;
+    private String threadName;
+    private String tableName;
+    private String fieldName;
+    private JdbcUtils jdbcUtils;
+    private ExecutorService executorService;
+    private boolean Running = true;
 
 
-    public Consumer(ConsumerConfig consumerConfig,ConsumerTemplate consumerTemplate,JdbcUtils jdbcUtils)
-    {
+    public Consumer(ConsumerConfig consumerConfig, ConsumerTemplate consumerTemplate, JdbcUtils jdbcUtils) {
         logger.info("init Consumer:ConsumerTemplate{}", consumerTemplate);
         Properties properties = new Properties();
         properties.setProperty("zookeeper.connect", consumerConfig.getZookeeper_connect());
         properties.setProperty("zookeeper.session.timeout.ms", consumerConfig.getZookeeper_session_timeout_ms());
         properties.setProperty("group.id", consumerTemplate.getGroupId());
         this.connector = kafka.consumer.Consumer.createJavaConsumerConnector(new kafka.consumer.ConsumerConfig(properties));
-        this.jdbcUtils=jdbcUtils;
+        this.jdbcUtils = jdbcUtils;
         this.topic = consumerTemplate.getTopic();
-        this.threadName=consumerTemplate.getThreadName();
-        this.threads=consumerTemplate.getThrads();
-        this.tableName=consumerTemplate.getTableName();
-        this.fieldName=consumerTemplate.getFieldName();
+        this.threadName = consumerTemplate.getThreadName();
+        this.threads = consumerTemplate.getThrads();
+        this.tableName = consumerTemplate.getTableName();
+        this.fieldName = consumerTemplate.getFieldName();
         executorService = Executors.newFixedThreadPool(threads);
     }
 
@@ -55,21 +54,21 @@ public class Consumer extends Thread {
         topicCountMap.put(topic, threads);
         Map<String, List<KafkaStream<byte[], byte[]>>> consumerMap = connector.createMessageStreams(topicCountMap);
         List<KafkaStream<byte[], byte[]>> streams = consumerMap.get(topic);
-        int index=0;
+        int index = 0;
         for (KafkaStream<byte[], byte[]> stream : streams) {
-           if(index<threads && Running){
-               Thread thread=new DateInsertion(stream,jdbcUtils,tableName,fieldName);
-               ThreadFactory.getIntstant().put(threadName+(++index),thread) ;
-               executorService.execute(thread);
-           }
+            if (index < threads && Running) {
+                Thread thread = new DateInsertion(stream, jdbcUtils, tableName, fieldName);
+                ThreadFactory.getIntstant().put(threadName + (++index), thread);
+                executorService.execute(thread);
+            }
         }
     }
 
     /**
      * 停止线程
      */
-    public  void stopThread(){
-        Running=false;
+    public void stopThread() {
+        Running = false;
         this.connector.shutdown();
         this.interrupt();
     }

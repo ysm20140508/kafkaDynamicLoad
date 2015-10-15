@@ -9,7 +9,7 @@ public class ConsumerTemplate {
     private String tableName;
     private Integer thrads;
     private String threadName;
-    private String fieldName ;
+    private String fieldName;
 
     public String getGroupId() {
         return groupId;

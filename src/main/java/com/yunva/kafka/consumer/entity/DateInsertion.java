@@ -20,11 +20,11 @@ public class DateInsertion extends Thread {
     private String tableName;
     private String fieldName;
 
-    public DateInsertion(KafkaStream<byte[], byte[]> stream, JdbcUtils jdbcUtils,String tableName,String fieldName) {
+    public DateInsertion(KafkaStream<byte[], byte[]> stream, JdbcUtils jdbcUtils, String tableName, String fieldName) {
         this.stream = stream;
-        this.tableName=tableName;
+        this.tableName = tableName;
         this.jdbcUtils = jdbcUtils;
-        this.fieldName=fieldName;
+        this.fieldName = fieldName;
     }
 
     public void run() {
@@ -33,7 +33,7 @@ public class DateInsertion extends Thread {
         while (it.hasNext())
             if (isRunning) {
                 try {
-                    jdbcUtils.insert(ObjectUtils.parseString(new String(it.next().message(), "utf-8"),tableName,fieldName));
+                    jdbcUtils.insert(ObjectUtils.parseString(new String(it.next().message(), "utf-8"), tableName, fieldName));
                 } catch (UnsupportedEncodingException e) {
                 }
             }

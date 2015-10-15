@@ -23,6 +23,7 @@ public class JdbcUtils {
 
     /**
      * 获取要更新的消费者
+     *
      * @return
      */
     public List<ConsumerTopic> getUpdatedConsumer() {
@@ -31,19 +32,19 @@ public class JdbcUtils {
         List<Map<String, Object>> mapList = jdbcTemplate.queryForList(sql);
         for (Map<String, Object> map : mapList) {
             ConsumerTopic consumerTopic = new ConsumerTopic();
-            consumerTopic.setName((String)map.get("name"));
-            consumerTopic.setTopic((String)map.get("topic"));
-            consumerTopic.setGroup((String)map.get("group"));
-            consumerTopic.setTableName((String)map.get("table_name"));
-            Integer threadStatus=(Integer)map.get("thread_status");
-            Integer threadCount=(Integer)map.get("thread_count");
-            Integer updateStatus=(Integer)map.get("update_status");
-            Object id=(Object)map.get("id");
+            consumerTopic.setName((String) map.get("name"));
+            consumerTopic.setTopic((String) map.get("topic"));
+            consumerTopic.setGroup((String) map.get("group"));
+            consumerTopic.setTableName((String) map.get("table_name"));
+            Integer threadStatus = (Integer) map.get("thread_status");
+            Integer threadCount = (Integer) map.get("thread_count");
+            Integer updateStatus = (Integer) map.get("update_status");
+            Object id = (Object) map.get("id");
             consumerTopic.setThreadStatus(threadStatus);
             consumerTopic.setThreadCount(threadCount);
             consumerTopic.setUpdateStatus(updateStatus);
             consumerTopic.setId(Integer.parseInt(id.toString()));
-            consumerTopic.setFieldName((String)map.get("field_name"));
+            consumerTopic.setFieldName((String) map.get("field_name"));
             consumerTopicList.add(consumerTopic);
         }
         return consumerTopicList;

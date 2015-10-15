@@ -34,39 +34,40 @@ public class ObjectUtils {
 
     /**
      * 根据域名和消息组装成SQL
+     *
      * @param message
      * @param tableName
      * @param fieldNames
      * @return
      */
     public static String parseString(String message, String tableName, String fieldNames) {
-        String sql="";
+        String sql = "";
         if (StringUtils.isEmpty(fieldNames)) return "";
-        String[] names=fieldNames.split(",");
-        int length=names.length;
-        for(int index=0;index<length;index++){
-            if(message.indexOf(names[index])==-1) continue;
-            if((index < length-1) && message.indexOf(names[index+1])==-1) continue;
-            if(index==0){
-                if(length>1){
-                    String value1=message.substring((names[index]+":").length(),message.indexOf("|"+names[index+1]));
-                    sql+="'"+value1+"'";
+        String[] names = fieldNames.split(",");
+        int length = names.length;
+        for (int index = 0; index < length; index++) {
+            if (message.indexOf(names[index]) == -1) continue;
+            if ((index < length - 1) && message.indexOf(names[index + 1]) == -1) continue;
+            if (index == 0) {
+                if (length > 1) {
+                    String value1 = message.substring((names[index] + ":").length(), message.indexOf("|" + names[index + 1]));
+                    sql += "'" + value1 + "'";
                 }
             }
-            if(index >0 && index < length-1){
-                String value=message.substring(message.indexOf(names[index])+(names[index]+":").length(),message.indexOf("|"+names[index+1]));
-                sql+=", '"+value+"'";
+            if (index > 0 && index < length - 1) {
+                String value = message.substring(message.indexOf(names[index]) + (names[index] + ":").length(), message.indexOf("|" + names[index + 1]));
+                sql += ", '" + value + "'";
             }
-            if(index==length-1){
-                String value=message.substring(message.indexOf(names[index])+(names[index]+":").length());
-                if(index==0){
-                    sql+="'"+value+"'";
-                }else {
-                    sql+=", '"+value+"'";
+            if (index == length - 1) {
+                String value = message.substring(message.indexOf(names[index]) + (names[index] + ":").length());
+                if (index == 0) {
+                    sql += "'" + value + "'";
+                } else {
+                    sql += ", '" + value + "'";
                 }
             }
         }
-        sql="insert into "+tableName+" VALUES ( "+sql+" )";
+        sql = "insert into " + tableName + " VALUES ( " + sql + " )";
         return sql;
     }
 }

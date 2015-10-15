@@ -23,12 +23,12 @@ public class KafkaServer {
         AbstractApplicationContext context = new ClassPathXmlApplicationContext("spring/spring.xml");
         context.registerShutdownHook();
 
-        JdbcUtils jdbcUtils=(JdbcUtils)context.getBean("jdbcUtils");
-        ConsumerConfig consumerConfig=(ConsumerConfig)context.getBean("consumerConfig");
+        JdbcUtils jdbcUtils = (JdbcUtils) context.getBean("jdbcUtils");
+        ConsumerConfig consumerConfig = (ConsumerConfig) context.getBean("consumerConfig");
 
-        ScheduledExecutorService scheduledExecutorService=Executors.newSingleThreadScheduledExecutor();
-        ConsumerThread consumerThread=new ConsumerThread(jdbcUtils,consumerConfig);
-        scheduledExecutorService.scheduleAtFixedRate(consumerThread,1,2,TimeUnit.MINUTES);
+        ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
+        ConsumerThread consumerThread = new ConsumerThread(jdbcUtils, consumerConfig);
+        scheduledExecutorService.scheduleAtFixedRate(consumerThread, 1, 2, TimeUnit.MINUTES);
 
         logger.info("com.yunva.KafkaServer start successful...");
     }

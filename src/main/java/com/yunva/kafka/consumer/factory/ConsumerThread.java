@@ -60,7 +60,7 @@ public class ConsumerThread implements Runnable {
                     Consumer consumer = new Consumer(consumerConfig, consumerTemplate, jdbcUtils);
                     ExecutorService executorService = Executors.newSingleThreadExecutor();
                     executorService.submit(consumer);
-                    ThreadFactory.getIntstant().put(threadName,consumer);
+                    ThreadFactory.getIntstant().put(threadName, consumer);
                 }
                 Integer id = consumerTop.getId();
                 jdbcUtils.updateSuccess(id);
