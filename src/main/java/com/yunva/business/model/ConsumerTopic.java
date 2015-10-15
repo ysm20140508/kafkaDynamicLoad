@@ -18,6 +18,7 @@ public class ConsumerTopic {
     private Integer threadCount;
     private Integer updateStatus;
     private Date createTime;
+    private String fieldName;
 
     public Integer getId() {
         return id;
@@ -89,5 +90,13 @@ public class ConsumerTopic {
 
     public void setUpdateStatus(Integer updateStatus) {
         this.updateStatus = updateStatus;
+    }
+
+    public String getFieldName() {
+        return fieldName;
+    }
+
+    public void setFieldName(String fieldName) {
+        this.fieldName = fieldName;
     }
 }

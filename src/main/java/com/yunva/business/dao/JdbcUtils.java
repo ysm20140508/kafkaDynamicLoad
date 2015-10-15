@@ -43,6 +43,7 @@ public class JdbcUtils {
             consumerTopic.setThreadCount(threadCount);
             consumerTopic.setUpdateStatus(updateStatus);
             consumerTopic.setId(Integer.parseInt(id.toString()));
+            consumerTopic.setFieldName((String)map.get("field_name"));
             consumerTopicList.add(consumerTopic);
         }
         return consumerTopicList;
@@ -71,7 +72,7 @@ public class JdbcUtils {
      * @param sql
      */
     public void insert(String sql) {
-        System.out.println(sql);
+        jdbcTemplate.execute(sql);
     }
 
 }

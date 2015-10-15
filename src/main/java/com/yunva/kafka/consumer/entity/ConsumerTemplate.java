@@ -9,6 +9,7 @@ public class ConsumerTemplate {
     private String tableName;
     private Integer thrads;
     private String threadName;
+    private String fieldName ;
 
     public String getGroupId() {
         return groupId;
@@ -48,5 +49,13 @@ public class ConsumerTemplate {
 
     public void setThreadName(String threadName) {
         this.threadName = threadName;
+    }
+
+    public String getFieldName() {
+        return fieldName;
+    }
+
+    public void setFieldName(String fieldName) {
+        this.fieldName = fieldName;
     }
 }

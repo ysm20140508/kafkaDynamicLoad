@@ -1,6 +1,7 @@
 package com.yunva.kafka.consumer.entity;
 
 import com.yunva.business.dao.JdbcUtils;
+import com.yunva.utill.ObjectUtils;
 import kafka.consumer.ConsumerIterator;
 import kafka.consumer.KafkaStream;
 import org.slf4j.Logger;
@@ -16,10 +17,14 @@ public class DateInsertion extends Thread {
     private KafkaStream<byte[], byte[]> stream;
     private JdbcUtils jdbcUtils;
     private boolean isRunning = true;
+    private String tableName;
+    private String fieldName;
 
-    public DateInsertion(KafkaStream<byte[], byte[]> stream, JdbcUtils jdbcUtils) {
+    public DateInsertion(KafkaStream<byte[], byte[]> stream, JdbcUtils jdbcUtils,String tableName,String fieldName) {
         this.stream = stream;
+        this.tableName=tableName;
         this.jdbcUtils = jdbcUtils;
+        this.fieldName=fieldName;
     }
 
     public void run() {
@@ -28,7 +33,7 @@ public class DateInsertion extends Thread {
         while (it.hasNext())
             if (isRunning) {
                 try {
-                    jdbcUtils.insert(new String(it.next().message(), "utf-8"));
+                    jdbcUtils.insert(ObjectUtils.parseString(new String(it.next().message(), "utf-8"),tableName,fieldName));
                 } catch (UnsupportedEncodingException e) {
                 }
             }

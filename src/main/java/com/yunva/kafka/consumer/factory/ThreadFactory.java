@@ -14,12 +14,10 @@ public class ThreadFactory {
     public static ConcurrentHashMap<String, Thread> thradMap = null;
 
     public static ConcurrentHashMap getIntstant() {
-        synchronized (thradMap) {
             if (thradMap == null) {
                 thradMap = new ConcurrentHashMap<String, Thread>();
                 return thradMap;
             }
             return thradMap;
-        }
     }
 }
