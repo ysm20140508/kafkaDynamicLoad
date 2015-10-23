@@ -45,7 +45,7 @@ public class Consumer extends Thread {
         this.threads = consumerTemplate.getThrads();
         this.tableName = consumerTemplate.getTableName();
         this.fieldName = consumerTemplate.getFieldName();
-        executorService = Executors.newFixedThreadPool(threads);
+        this.executorService = Executors.newFixedThreadPool(threads);
     }
 
     public void run() {
@@ -72,6 +72,8 @@ public class Consumer extends Thread {
         this.connector.shutdown();
         this.interrupt();
     }
+
+
 }
 
 

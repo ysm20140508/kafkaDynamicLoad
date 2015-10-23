@@ -15,8 +15,6 @@
               <property name="xmlPath" value="classpath:consumer.xml" />
        </bean>-->
 
-
        <import resource="spring-kafka.xml"/>
        <import resource="spring-statistic-database.xml"/>
-
 </beans>

@@ -67,7 +67,7 @@ public class ObjectUtils {
                 }
             }
         }
-        sql = "insert into " + tableName + " VALUES ( " + sql + " )";
+        sql = "( " + sql + " )";
         return sql;
     }
 }

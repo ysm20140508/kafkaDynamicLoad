@@ -5,7 +5,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -22,7 +21,7 @@ public class JdbcUtils {
     JdbcTemplate jdbcTemplate;
 
     /**
-     * 获取要更新的消费者
+     * obtain consumer
      *
      * @return
      */
@@ -51,7 +50,7 @@ public class JdbcUtils {
     }
 
     /**
-     * 更新状态
+     * update status
      */
     public void updateSuccess(int id) {
         String sql = "UPDATE tbl_kafka_consumer_info SET update_status = 0 WHERE update_status = 1 and id=?";
@@ -59,7 +58,7 @@ public class JdbcUtils {
     }
 
     /**
-     * 批量插入
+     * batch insert
      *
      * @param sqls
      */
@@ -68,7 +67,7 @@ public class JdbcUtils {
     }
 
     /**
-     * 插入
+     * insert
      *
      * @param sql
      */

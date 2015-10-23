@@ -50,17 +50,19 @@ public class ConsumerThread implements Runnable {
                         }
                     }
                 } else if (threadStatus == 1) {
-                    ConsumerTemplate consumerTemplate = new ConsumerTemplate();
-                    consumerTemplate.setThreadName(threadName);
-                    consumerTemplate.setThrads(threads);
-                    consumerTemplate.setTopic(consumerTop.getTopic());
-                    consumerTemplate.setGroupId(consumerTop.getGroup());
-                    consumerTemplate.setTableName(consumerTop.getTableName());
-                    consumerTemplate.setFieldName(consumerTop.getFieldName());
-                    Consumer consumer = new Consumer(consumerConfig, consumerTemplate, jdbcUtils);
-                    ExecutorService executorService = Executors.newSingleThreadExecutor();
-                    executorService.submit(consumer);
-                    ThreadFactory.getIntstant().put(threadName, consumer);
+                    if (!ThreadFactory.getIntstant().containsKey(threadName)) {
+                        ConsumerTemplate consumerTemplate = new ConsumerTemplate();
+                        consumerTemplate.setThreadName(threadName);
+                        consumerTemplate.setThrads(threads);
+                        consumerTemplate.setTopic(consumerTop.getTopic());
+                        consumerTemplate.setGroupId(consumerTop.getGroup());
+                        consumerTemplate.setTableName(consumerTop.getTableName());
+                        consumerTemplate.setFieldName(consumerTop.getFieldName());
+                        Consumer consumer = new Consumer(consumerConfig, consumerTemplate, jdbcUtils);
+                        ExecutorService executorService = Executors.newSingleThreadExecutor();
+                        executorService.submit(consumer);
+                        ThreadFactory.getIntstant().put(threadName, consumer);
+                    }
                 }
                 Integer id = consumerTop.getId();
                 jdbcUtils.updateSuccess(id);

@@ -1,6 +1,5 @@
 package com.yunva.kafka.consumer.factory;
 
-import sun.org.mozilla.javascript.internal.Synchronizer;
 
 import java.util.concurrent.ConcurrentHashMap;
 
