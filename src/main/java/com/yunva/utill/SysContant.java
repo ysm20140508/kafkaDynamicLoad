@@ -5,4 +5,6 @@ package com.yunva.utill;
  */
 public class SysContant {
       public final  static Integer THREADCOUNT=2;
+      public final  static Integer INSERTSIZE=1000;
+      public final  static Integer INSERTHEATBEAT=1000*60;
 }

@@ -2,6 +2,7 @@ package com.yunva.kafka.consumer.entity;
 
 import com.yunva.business.dao.JdbcUtils;
 import com.yunva.utill.ObjectUtils;
+import com.yunva.utill.SysContant;
 import kafka.consumer.ConsumerIterator;
 import kafka.consumer.KafkaStream;
 import org.apache.commons.lang3.StringUtils;
@@ -41,14 +42,14 @@ public class DateInsertion extends Thread {
             if (isRunning) {
                 long curreyTIme = System.currentTimeMillis();
                 try {
-                    if (index < insertLimit * 1000) {
+                    if (index < insertLimit * SysContant.INSERTSIZE) {
                         if (index == 0) {
                             sql = "insert into " + tableName + " VALUES " + ObjectUtils.parseString(new String(it.next().message(), "utf-8"), fieldName);
                         } else {
                             sql += "," + ObjectUtils.parseString(new String(it.next().message(), "utf-8"), fieldName);
                         }
                         index++;
-                    } else if ((index == insertLimit * 1000 || (endTime - curreyTIme) > insertHeartbeat * 60 * 1000)) {
+                    } else if ((index == insertLimit * 1000 || (endTime - curreyTIme) > insertHeartbeat * SysContant.INSERTHEATBEAT)) {
                         if (StringUtils.isNotEmpty(sql)) {
                             logger.info("insert into {}", index);
                             jdbcUtils.insert(sql);
