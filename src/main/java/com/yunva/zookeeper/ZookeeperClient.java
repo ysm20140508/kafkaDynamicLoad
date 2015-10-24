@@ -41,10 +41,11 @@ public class ZookeeperClient implements Watcher {
         try {
             zk = new ZooKeeper(consumerConfig.getZookeeper_connect(), Integer.parseInt(consumerConfig.getZookeeper_session_timeout_ms()), new ZookeeperClient(consumerConfig, jdbcUtils));
             Stat stat = zk.exists("/kafkaConsumers", true);
-            zk.getChildren("/kafkaConsumers",true);
             if (stat == null) {
                 zk.create("/kafkaConsumers", "kafkaConsumers".getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
             }
+            List<String> childrenList = zk.getChildren("/kafkaConsumers", true);
+            initThread(childrenList);
             while (true) {
                 Thread.sleep(1000);
             }
@@ -85,7 +86,7 @@ public class ZookeeperClient implements Watcher {
                             ThreadFactory.getIntstant().remove(indexThreadName);
                         }
                     }
-                }else if(StringUtils.isEmpty(chiledrenName)){
+                } else if (StringUtils.isEmpty(chiledrenName)) {
                     String threadName = key;
                     Consumer consumer = (Consumer) ThreadFactory.getIntstant().get(key);
                     consumer.stopThread();
