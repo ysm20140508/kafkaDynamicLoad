@@ -77,7 +77,9 @@ public class Consumer extends Thread {
         this.interrupt();
     }
 
-
+    public Integer getThreads() {
+        return threads;
+    }
 }
 
 

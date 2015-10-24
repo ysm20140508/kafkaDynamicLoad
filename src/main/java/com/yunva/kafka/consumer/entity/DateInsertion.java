@@ -40,7 +40,7 @@ public class DateInsertion extends Thread {
         String sql = "";
         while (it.hasNext())
             if (isRunning) {
-                long curreyTIme = System.currentTimeMillis();
+                long curreyTime = System.currentTimeMillis();
                 try {
                     if (index < insertLimit * SysContant.INSERTSIZE) {
                         if (index == 0) {
@@ -49,7 +49,7 @@ public class DateInsertion extends Thread {
                             sql += "," + ObjectUtils.parseString(new String(it.next().message(), "utf-8"), fieldName);
                         }
                         index++;
-                    } else if ((index == insertLimit * 1000 || (endTime - curreyTIme) > insertHeartbeat * SysContant.INSERTHEATBEAT)) {
+                    } else if ((index == insertLimit * SysContant.INSERTSIZE || (endTime - curreyTime) > insertHeartbeat * SysContant.INSERTHEATBEAT)) {
                         if (StringUtils.isNotEmpty(sql)) {
                             logger.info("insert into {}", index);
                             jdbcUtils.insert(sql);

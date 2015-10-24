@@ -3,6 +3,7 @@ package com.yunva;
 import com.yunva.business.dao.JdbcUtils;
 import com.yunva.kafka.consumer.entity.ConsumerConfig;
 import com.yunva.kafka.consumer.factory.ConsumerThread;
+import com.yunva.zookeeper.ZookeeperClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.support.AbstractApplicationContext;
@@ -26,10 +27,11 @@ public class KafkaServer {
         JdbcUtils jdbcUtils = (JdbcUtils) context.getBean("jdbcUtils");
         ConsumerConfig consumerConfig = (ConsumerConfig) context.getBean("consumerConfig");
 
-        ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
-        ConsumerThread consumerThread = new ConsumerThread(jdbcUtils, consumerConfig);
-        scheduledExecutorService.scheduleAtFixedRate(consumerThread, 1, 2, TimeUnit.MINUTES);
-
+//        ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
+//        ConsumerThread consumerThread = new ConsumerThread(jdbcUtils, consumerConfig);
+//        scheduledExecutorService.scheduleAtFixedRate(consumerThread, 1, 2, TimeUnit.MINUTES);
+        ZookeeperClient zookeeperClient=new ZookeeperClient(consumerConfig,jdbcUtils);
+        zookeeperClient.init();
         logger.info("com.yunva.KafkaServer start successful...");
     }
 }
