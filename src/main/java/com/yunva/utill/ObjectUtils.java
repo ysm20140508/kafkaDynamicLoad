@@ -36,11 +36,10 @@ public class ObjectUtils {
      * 根据域名和消息组装成SQL
      *
      * @param message
-     * @param tableName
      * @param fieldNames
      * @return
      */
-    public static String parseString(String message, String tableName, String fieldNames) {
+    public static String parseString(String message, String fieldNames) {
         String sql = "";
         if (StringUtils.isEmpty(fieldNames)) return "";
         String[] names = fieldNames.split(",");

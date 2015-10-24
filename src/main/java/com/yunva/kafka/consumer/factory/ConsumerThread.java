@@ -58,6 +58,8 @@ public class ConsumerThread implements Runnable {
                         consumerTemplate.setGroupId(consumerTop.getGroup());
                         consumerTemplate.setTableName(consumerTop.getTableName());
                         consumerTemplate.setFieldName(consumerTop.getFieldName());
+                        consumerTemplate.setInsertLimit(consumerTop.getInsertLimit());
+                        consumerTemplate.setInsertHeartbeat(consumerTop.getInsertHeartbeat());
                         Consumer consumer = new Consumer(consumerConfig, consumerTemplate, jdbcUtils);
                         ExecutorService executorService = Executors.newSingleThreadExecutor();
                         executorService.submit(consumer);

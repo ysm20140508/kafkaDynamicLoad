@@ -27,6 +27,8 @@ public class Consumer extends Thread {
     private String threadName;
     private String tableName;
     private String fieldName;
+    private Integer insertLimit;
+    private Integer insertHeartbeat;
     private JdbcUtils jdbcUtils;
     private ExecutorService executorService;
     private boolean Running = true;
@@ -45,6 +47,8 @@ public class Consumer extends Thread {
         this.threads = consumerTemplate.getThrads();
         this.tableName = consumerTemplate.getTableName();
         this.fieldName = consumerTemplate.getFieldName();
+        this.insertLimit = consumerTemplate.getInsertLimit();
+        this.insertHeartbeat = consumerTemplate.getInsertHeartbeat();
         this.executorService = Executors.newFixedThreadPool(threads);
     }
 
@@ -57,7 +61,7 @@ public class Consumer extends Thread {
         int index = 0;
         for (KafkaStream<byte[], byte[]> stream : streams) {
             if (index < threads && Running) {
-                Thread thread = new DateInsertion(stream, jdbcUtils, tableName, fieldName);
+                Thread thread = new DateInsertion(stream, jdbcUtils, tableName, fieldName, insertLimit, insertHeartbeat);
                 ThreadFactory.getIntstant().put(threadName + (++index), thread);
                 executorService.execute(thread);
             }

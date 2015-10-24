@@ -7,9 +7,6 @@ import kafka.consumer.KafkaStream;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.env.SystemEnvironmentPropertySource;
-
-import java.util.concurrent.atomic.AtomicInteger;
 
 
 /**
@@ -22,12 +19,16 @@ public class DateInsertion extends Thread {
     private boolean isRunning = true;
     private String tableName;
     private String fieldName;
+    private Integer insertLimit;
+    private Integer insertHeartbeat;
 
-    public DateInsertion(KafkaStream<byte[], byte[]> stream, JdbcUtils jdbcUtils, String tableName, String fieldName) {
+    public DateInsertion(KafkaStream<byte[], byte[]> stream, JdbcUtils jdbcUtils, String tableName, String fieldName, Integer insertLimit, Integer insertHeartbeat) {
         this.stream = stream;
         this.tableName = tableName;
         this.jdbcUtils = jdbcUtils;
         this.fieldName = fieldName;
+        this.insertLimit = insertLimit;
+        this.insertHeartbeat = insertHeartbeat;
     }
 
     public void run() {
@@ -40,14 +41,14 @@ public class DateInsertion extends Thread {
             if (isRunning) {
                 long curreyTIme = System.currentTimeMillis();
                 try {
-                    if (index < 50000) {
+                    if (index < insertLimit * 1000) {
                         if (index == 0) {
-                            sql = "insert into " + tableName + " VALUES " + ObjectUtils.parseString(new String(it.next().message(), "utf-8"), tableName, fieldName);
+                            sql = "insert into " + tableName + " VALUES " + ObjectUtils.parseString(new String(it.next().message(), "utf-8"), fieldName);
                         } else {
-                            sql += "," + ObjectUtils.parseString(new String(it.next().message(), "utf-8"), tableName, fieldName);
+                            sql += "," + ObjectUtils.parseString(new String(it.next().message(), "utf-8"), fieldName);
                         }
                         index++;
-                    } else if ((index == 50000 || (endTime - curreyTIme) > 600000L)) {
+                    } else if ((index == insertLimit * 1000 || (endTime - curreyTIme) > insertHeartbeat * 60 * 1000)) {
                         if (StringUtils.isNotEmpty(sql)) {
                             logger.info("insert into {}", index);
                             jdbcUtils.insert(sql);

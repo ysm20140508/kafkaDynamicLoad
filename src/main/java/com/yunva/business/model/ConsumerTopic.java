@@ -19,6 +19,8 @@ public class ConsumerTopic {
     private Integer updateStatus;
     private Date createTime;
     private String fieldName;
+    private Integer insertLimit;
+    private Integer insertHeartbeat;
 
     public Integer getId() {
         return id;
@@ -98,5 +100,21 @@ public class ConsumerTopic {
 
     public void setFieldName(String fieldName) {
         this.fieldName = fieldName;
+    }
+
+    public Integer getInsertHeartbeat() {
+        return insertHeartbeat;
+    }
+
+    public void setInsertHeartbeat(Integer insertHeartbeat) {
+        this.insertHeartbeat = insertHeartbeat;
+    }
+
+    public Integer getInsertLimit() {
+        return insertLimit;
+    }
+
+    public void setInsertLimit(Integer insertLimit) {
+        this.insertLimit = insertLimit;
     }
 }

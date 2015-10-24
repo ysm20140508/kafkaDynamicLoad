@@ -10,6 +10,8 @@ public class ConsumerTemplate {
     private Integer thrads;
     private String threadName;
     private String fieldName;
+    private Integer insertLimit;
+    private Integer insertHeartbeat;
 
     public String getGroupId() {
         return groupId;
@@ -57,5 +59,21 @@ public class ConsumerTemplate {
 
     public void setFieldName(String fieldName) {
         this.fieldName = fieldName;
+    }
+
+    public Integer getInsertLimit() {
+        return insertLimit;
+    }
+
+    public void setInsertLimit(Integer insertLimit) {
+        this.insertLimit = insertLimit;
+    }
+
+    public Integer getInsertHeartbeat() {
+        return insertHeartbeat;
+    }
+
+    public void setInsertHeartbeat(Integer insertHeartbeat) {
+        this.insertHeartbeat = insertHeartbeat;
     }
 }

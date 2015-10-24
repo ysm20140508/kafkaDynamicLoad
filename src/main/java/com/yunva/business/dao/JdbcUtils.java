@@ -1,10 +1,12 @@
 package com.yunva.business.dao;
 
 import com.yunva.business.model.ConsumerTopic;
+import org.omg.CORBA.*;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.lang.Object;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -39,11 +41,15 @@ public class JdbcUtils {
             Integer threadCount = (Integer) map.get("thread_count");
             Integer updateStatus = (Integer) map.get("update_status");
             Object id = (Object) map.get("id");
+            Integer insertLimit = (Integer) map.get("insert_limit");
+            Integer insertHeartbeat = (Integer) map.get("insert_heartbeat");
             consumerTopic.setThreadStatus(threadStatus);
             consumerTopic.setThreadCount(threadCount);
             consumerTopic.setUpdateStatus(updateStatus);
             consumerTopic.setId(Integer.parseInt(id.toString()));
             consumerTopic.setFieldName((String) map.get("field_name"));
+            consumerTopic.setInsertLimit(insertLimit);
+            consumerTopic.setInsertHeartbeat(insertHeartbeat);
             consumerTopicList.add(consumerTopic);
         }
         return consumerTopicList;
