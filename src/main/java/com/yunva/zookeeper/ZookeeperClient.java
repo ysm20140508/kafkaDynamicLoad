@@ -39,10 +39,12 @@ public class ZookeeperClient implements Watcher {
 
     public void init() {
         try {
+            logger.info("init Zookeeper");
             zk = new ZooKeeper(consumerConfig.getZookeeper_connect(), Integer.parseInt(consumerConfig.getZookeeper_session_timeout_ms()), new ZookeeperClient(consumerConfig, jdbcUtils));
             Stat stat = zk.exists("/kafkaConsumers", true);
             if (stat == null) {
                 zk.create("/kafkaConsumers", "kafkaConsumers".getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
+                logger.info("create Zookeeper Node /kafkaConsumers");
             }
             List<String> childrenList = zk.getChildren("/kafkaConsumers", true);
             initThread(childrenList);
@@ -50,7 +52,7 @@ public class ZookeeperClient implements Watcher {
                 Thread.sleep(1000);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("{}",e.getMessage());
         }
 
     }
@@ -63,7 +65,7 @@ public class ZookeeperClient implements Watcher {
                 initThread(childrenList);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("{}",e.getMessage());
         }
     }
 
@@ -72,7 +74,7 @@ public class ZookeeperClient implements Watcher {
 
             String chiledrenName = "";
             for (String children : childrenList) {
-                chiledrenName += children;
+                chiledrenName += children+",";
             }
             ConcurrentHashMap concurrentHashMap = ThreadFactory.getIntstant();
             for (String key : (Set<String>) concurrentHashMap.entrySet()) {
@@ -107,11 +109,11 @@ public class ZookeeperClient implements Watcher {
                 }
             }
             for (String children : childrenList) {
-                chiledrenName += children;
                 if (!ThreadFactory.getIntstant().containsKey(children)) {
                     Stat stat = new Stat();
                     String path = "/kafkaConsumers/" + children;
-                    ConsumerTopic consumerTop = FastjsonUtills.parseObject(zk.getData(path, false, stat), ConsumerTopic.class);
+                    logger.info("obtain kafka node {} content ",path);
+                    ConsumerTopic consumerTop = FastjsonUtills.parseObject(zk.getData(path, false, stat),ConsumerTopic.class);
                     ConsumerTemplate consumerTemplate = new ConsumerTemplate();
                     consumerTemplate.setThreadName(children);
                     consumerTemplate.setThrads(consumerTop.getThreadCount());
@@ -122,12 +124,14 @@ public class ZookeeperClient implements Watcher {
                     consumerTemplate.setInsertLimit(consumerTop.getInsertLimit());
                     consumerTemplate.setInsertHeartbeat(consumerTop.getInsertHeartbeat());
                     Consumer consumer = new Consumer(consumerConfig, consumerTemplate, jdbcUtils);
+                    logger.info("open consumer thread ");
                     ExecutorService executorService = Executors.newSingleThreadExecutor();
                     executorService.submit(consumer);
                     ThreadFactory.getIntstant().put(children, consumer);
                 }
             }
         } catch (Exception e) {
+            logger.error(e.getMessage());
         }
     }
 }

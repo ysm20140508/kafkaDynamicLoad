@@ -35,21 +35,22 @@ public class DateInsertion extends Thread {
     public void run() {
         logger.info("DateInsertion Thread is Running...");
         ConsumerIterator<byte[], byte[]> it = stream.iterator();
-        long endTime = 0l;
+        long endTime = System.currentTimeMillis();
         int index = 0;
         String sql = "";
         while (it.hasNext())
             if (isRunning) {
                 long curreyTime = System.currentTimeMillis();
+                Long timeInterval = curreyTime - endTime;
                 try {
-                    if (index < insertLimit * SysContant.INSERTSIZE) {
+                    if (index < insertLimit * SysContant.INSERTSIZE && timeInterval < insertHeartbeat * SysContant.INSERTHEATBEAT) {
                         if (index == 0) {
                             sql = "insert into " + tableName + " VALUES " + ObjectUtils.parseString(new String(it.next().message(), "utf-8"), fieldName);
                         } else {
                             sql += "," + ObjectUtils.parseString(new String(it.next().message(), "utf-8"), fieldName);
                         }
                         index++;
-                    } else if ((index == insertLimit * SysContant.INSERTSIZE || (endTime - curreyTime) > insertHeartbeat * SysContant.INSERTHEATBEAT)) {
+                    } else if ((index == insertLimit * SysContant.INSERTSIZE || timeInterval >= insertHeartbeat * SysContant.INSERTHEATBEAT)) {
                         if (StringUtils.isNotEmpty(sql)) {
                             logger.info("insert into {}", index);
                             jdbcUtils.insert(sql);
