@@ -71,15 +71,14 @@ public class ZookeeperClient implements Watcher {
 
     public void initThread(List<String> childrenList) {
         try {
-
             String chiledrenName = "";
             for (String children : childrenList) {
                 chiledrenName += children+",";
             }
-            ConcurrentHashMap concurrentHashMap = ThreadFactory.getIntstant();
-            for (String key : (Set<String>) concurrentHashMap.entrySet()) {
+            for (String key : (Set<String>) ThreadFactory.getIntstant().keySet()) {
                 if (StringUtils.isNotEmpty(chiledrenName) && chiledrenName.indexOf(key) == -1) {
                     String threadName = key;
+                    if(!ThreadFactory.getIntstant().containsKey(key)) continue;
                     Consumer consumer = (Consumer) ThreadFactory.getIntstant().get(key);
                     consumer.stopThread();
                     ThreadFactory.getIntstant().remove(threadName);
@@ -94,6 +93,7 @@ public class ZookeeperClient implements Watcher {
                     }
                 } else if (StringUtils.isEmpty(chiledrenName)) {
                     String threadName = key;
+                    if(!ThreadFactory.getIntstant().containsKey(key)) continue;
                     Consumer consumer = (Consumer) ThreadFactory.getIntstant().get(key);
                     consumer.stopThread();
                     ThreadFactory.getIntstant().remove(threadName);
