@@ -1,7 +1,7 @@
 package com.yunva.kafka.consumer.factory;
 
 
-import com.yunva.utill.NamedDaemonThreadFactory;
+import com.yunva.utill.NamedThreadFactory;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
@@ -27,7 +27,7 @@ public class ThreadFactory {
 
     public static ExecutorService getThread() {
         if (executorService == null) {
-            executorService = Executors.newCachedThreadPool(new NamedDaemonThreadFactory("kafkaDynamicLoad"));
+            executorService = Executors.newCachedThreadPool(new NamedThreadFactory("kafkaDynamicLoad"));
             return executorService;
         }
         return executorService;

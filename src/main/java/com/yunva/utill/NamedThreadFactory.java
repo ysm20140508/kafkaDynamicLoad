@@ -6,12 +6,12 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * Created by Administrator on 2015-08-26.
  */
-public class NamedDaemonThreadFactory implements ThreadFactory {
+public class NamedThreadFactory implements ThreadFactory {
     private static final AtomicInteger COUNTER = new AtomicInteger(0);
 
     private final String prefix;
 
-    public NamedDaemonThreadFactory(String prefix) {
+    public NamedThreadFactory(String prefix) {
         this.prefix = prefix;
     }
 
