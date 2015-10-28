@@ -48,12 +48,12 @@ public class FastjsonUtills {
     public static void main(String[] args) {
          ConsumerTopic consumerTopic=new ConsumerTopic();
          consumerTopic.setId(1);
-         consumerTopic.setName("click20151019");
-         consumerTopic.setTopic("click20151019");
+         consumerTopic.setName("click20151020");
+         consumerTopic.setTopic("click20151020");
          consumerTopic.setGroup("test");
          consumerTopic.setTableName("tbl_message_info");
          consumerTopic.setFieldName("time,yunvaId,pushId,phase");
-         consumerTopic.setThreadCount(1);
+         consumerTopic.setThreadCount(2);
          consumerTopic.setInsertLimit(2);
          consumerTopic.setInsertHeartbeat(1);
          String json=new String(FastjsonUtills.toJSONString(consumerTopic));

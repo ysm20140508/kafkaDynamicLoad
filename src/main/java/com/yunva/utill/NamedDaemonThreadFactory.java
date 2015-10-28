@@ -18,7 +18,7 @@ public class NamedDaemonThreadFactory implements ThreadFactory {
     public Thread newThread(Runnable r) {
         Thread thread = new Thread(r);
         thread.setName(prefix + "-" + COUNTER.incrementAndGet());
-        thread.setDaemon(true);
+        thread.setDaemon(false);
         return thread;
     }
 }

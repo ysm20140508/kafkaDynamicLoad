@@ -3,18 +3,14 @@ package com.yunva.kafka.consumer.entity;
 
 import com.yunva.business.dao.JdbcUtils;
 import com.yunva.kafka.consumer.factory.ThreadFactory;
-import com.yunva.utill.SysContant;
 import kafka.consumer.KafkaStream;
 import kafka.javaapi.consumer.ConsumerConnector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 /**
  * Created by Administrator on 2015-08-25.
@@ -22,48 +18,40 @@ import java.util.concurrent.Executors;
 public class Consumer extends Thread {
     private final Logger logger = LoggerFactory.getLogger(Consumer.class);
     private ConsumerConnector connector;
-    private String topic;
-    private Integer threads;
-    private String threadName;
-    private String tableName;
-    private String fieldName;
-    private Integer insertLimit;
-    private Integer insertHeartbeat;
     private JdbcUtils jdbcUtils;
-    private ExecutorService executorService;
     private boolean Running = true;
+    private Map<String, Integer> topicMap;
+    private Map<String, ConsumerTemplate> consumerTemplateMap;
 
 
-    public Consumer(ConsumerConfig consumerConfig, ConsumerTemplate consumerTemplate, JdbcUtils jdbcUtils) {
-        logger.info("init Consumer:ConsumerTemplate{}", consumerTemplate);
+    public Consumer(ConsumerConfig consumerConfig, JdbcUtils jdbcUtils, Map<String, ConsumerTemplate> consumerTemplateMap, Map<String, Integer> topicMap) {
         Properties properties = new Properties();
         properties.setProperty("zookeeper.connect", consumerConfig.getZookeeper_connect());
         properties.setProperty("zookeeper.session.timeout.ms", consumerConfig.getZookeeper_session_timeout_ms());
-        properties.setProperty("group.id", consumerTemplate.getGroupId());
+        properties.setProperty("group.id", "test");
         this.connector = kafka.consumer.Consumer.createJavaConsumerConnector(new kafka.consumer.ConsumerConfig(properties));
         this.jdbcUtils = jdbcUtils;
-        this.topic = consumerTemplate.getTopic();
-        this.threadName = consumerTemplate.getThreadName();
-        this.threads = consumerTemplate.getThrads();
-        this.tableName = consumerTemplate.getTableName();
-        this.fieldName = consumerTemplate.getFieldName();
-        this.insertLimit = consumerTemplate.getInsertLimit();
-        this.insertHeartbeat = consumerTemplate.getInsertHeartbeat();
-        this.executorService = Executors.newFixedThreadPool(threads);
+        this.topicMap = topicMap;
+        this.consumerTemplateMap = consumerTemplateMap;
     }
 
     public void run() {
         logger.info("Consumer Thread is Running...");
-        Map<String, Integer> topicCountMap = new HashMap<String, Integer>();
-        topicCountMap.put(topic, threads);
-        Map<String, List<KafkaStream<byte[], byte[]>>> consumerMap = connector.createMessageStreams(topicCountMap);
-        List<KafkaStream<byte[], byte[]>> streams = consumerMap.get(topic);
-        int index = 0;
-        for (KafkaStream<byte[], byte[]> stream : streams) {
-            if (index < threads && Running) {
-                Thread thread = new DateInsertion(stream, jdbcUtils, tableName, fieldName, insertLimit, insertHeartbeat);
-                ThreadFactory.getIntstant().put(threadName + (++index), thread);
-                executorService.execute(thread);
+        Map<String, List<KafkaStream<byte[], byte[]>>> consumerMap = connector.createMessageStreams(topicMap);
+        for (String topic : topicMap.keySet()) {
+            ConsumerTemplate consumerTemplate = consumerTemplateMap.get(topic);
+            String tableName = consumerTemplate.getTableName();
+            String fieldName = consumerTemplate.getFieldName();
+            Integer insertLimit = consumerTemplate.getInsertLimit();
+            Integer insertHeartbeat = consumerTemplate.getInsertHeartbeat();
+            Integer threads = consumerTemplate.getThrads();
+            List<KafkaStream<byte[], byte[]>> streams = consumerMap.get(topic);
+            int index = 0;
+            for (KafkaStream<byte[], byte[]> stream : streams) {
+                if (index < threads && Running) {
+                    Thread thread = new DateInsertion(stream, jdbcUtils, tableName, fieldName, insertLimit, insertHeartbeat);
+                    ThreadFactory.getThread().execute(thread);
+                }
             }
         }
     }
@@ -75,10 +63,6 @@ public class Consumer extends Thread {
         Running = false;
         this.connector.shutdown();
         this.interrupt();
-    }
-
-    public Integer getThreads() {
-        return threads;
     }
 }
 

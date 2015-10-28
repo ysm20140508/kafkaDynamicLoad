@@ -1,7 +1,11 @@
 package com.yunva.kafka.consumer.factory;
 
 
+import com.yunva.utill.NamedDaemonThreadFactory;
+
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * User: xiang_xiang
@@ -11,6 +15,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class ThreadFactory {
     public static ConcurrentHashMap<String, Thread> thradMap = null;
+    public static ExecutorService executorService = null;
 
     public static ConcurrentHashMap getIntstant() {
         if (thradMap == null) {
@@ -18,5 +23,13 @@ public class ThreadFactory {
             return thradMap;
         }
         return thradMap;
+    }
+
+    public static ExecutorService getThread() {
+        if (executorService == null) {
+            executorService = Executors.newCachedThreadPool(new NamedDaemonThreadFactory("kafkaDynamicLoad"));
+            return executorService;
+        }
+        return executorService;
     }
 }
