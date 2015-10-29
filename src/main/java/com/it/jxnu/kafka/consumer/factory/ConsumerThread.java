@@ -1,16 +1,14 @@
-package com.yunva.kafka.consumer.factory;
+package com.it.jxnu.kafka.consumer.factory;
 
-import com.yunva.business.dao.JdbcUtils;
-import com.yunva.business.model.ConsumerTopic;
-import com.yunva.kafka.consumer.entity.Consumer;
-import com.yunva.kafka.consumer.entity.ConsumerConfig;
-import com.yunva.kafka.consumer.entity.ConsumerTemplate;
-import com.yunva.kafka.consumer.entity.DateInsertion;
+import com.it.jxnu.business.model.ConsumerTopic;
+import com.it.jxnu.kafka.consumer.entity.Consumer;
+import com.it.jxnu.kafka.consumer.entity.ConsumerConfig;
+import com.it.jxnu.business.dao.JdbcUtils;
+import com.it.jxnu.kafka.consumer.entity.ConsumerTemplate;
+import com.it.jxnu.kafka.consumer.entity.DateInsertion;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 /**
  * User: xiang_xiang

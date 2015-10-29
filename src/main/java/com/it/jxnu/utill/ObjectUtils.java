@@ -1,10 +1,9 @@
-package com.yunva.utill;
+package com.it.jxnu.utill;
 
-import com.yunva.kafka.producer.ProducerConfig;
+import com.it.jxnu.kafka.producer.ProducerConfig;
 import org.apache.commons.lang3.StringUtils;
 
 import java.lang.reflect.Field;
-import java.util.List;
 import java.util.Properties;
 
 /**

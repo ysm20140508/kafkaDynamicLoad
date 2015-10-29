@@ -1,8 +1,8 @@
-package com.yunva.kafka.consumer.entity;
+package com.it.jxnu.kafka.consumer.entity;
 
 
-import com.yunva.business.dao.JdbcUtils;
-import com.yunva.kafka.consumer.factory.ThreadFactory;
+import com.it.jxnu.business.dao.JdbcUtils;
+import com.it.jxnu.kafka.consumer.factory.ThreadFactory;
 import kafka.consumer.KafkaStream;
 import kafka.javaapi.consumer.ConsumerConnector;
 import org.slf4j.Logger;
@@ -57,7 +57,7 @@ public class Consumer extends Thread {
     }
 
     /**
-     * 停止线程
+     * stop Thread
      */
     public void stopThread() {
         Running = false;

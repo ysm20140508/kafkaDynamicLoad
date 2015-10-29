@@ -1,10 +1,10 @@
-package com.yunva.utill;
+package com.it.jxnu.utill;
 
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.alibaba.fastjson.parser.Feature;
-import com.yunva.business.model.ConsumerTopic;
+import com.it.jxnu.business.model.ConsumerTopic;
 
 /**
  * Created by Administrator on 2015-06-11.

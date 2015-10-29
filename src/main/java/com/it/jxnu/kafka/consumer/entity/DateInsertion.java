@@ -1,8 +1,8 @@
-package com.yunva.kafka.consumer.entity;
+package com.it.jxnu.kafka.consumer.entity;
 
-import com.yunva.business.dao.JdbcUtils;
-import com.yunva.utill.ObjectUtils;
-import com.yunva.utill.SysContant;
+import com.it.jxnu.utill.ObjectUtils;
+import com.it.jxnu.utill.SysContant;
+import com.it.jxnu.business.dao.JdbcUtils;
 import kafka.consumer.ConsumerIterator;
 import kafka.consumer.KafkaStream;
 import org.apache.commons.lang3.StringUtils;

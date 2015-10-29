@@ -1,7 +1,6 @@
-package com.yunva.business.dao;
+package com.it.jxnu.business.dao;
 
-import com.yunva.business.model.ConsumerTopic;
-import org.omg.CORBA.*;
+import com.it.jxnu.business.model.ConsumerTopic;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 

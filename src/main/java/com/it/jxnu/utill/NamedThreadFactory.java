@@ -1,4 +1,4 @@
-package com.yunva.utill;
+package com.it.jxnu.utill;
 
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;

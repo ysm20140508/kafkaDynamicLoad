@@ -1,4 +1,4 @@
-package com.yunva.business.model;
+package com.it.jxnu.business.model;
 
 import java.util.Date;
 

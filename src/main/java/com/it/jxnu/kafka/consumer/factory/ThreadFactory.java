@@ -1,7 +1,7 @@
-package com.yunva.kafka.consumer.factory;
+package com.it.jxnu.kafka.consumer.factory;
 
 
-import com.yunva.utill.NamedThreadFactory;
+import com.it.jxnu.utill.NamedThreadFactory;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;

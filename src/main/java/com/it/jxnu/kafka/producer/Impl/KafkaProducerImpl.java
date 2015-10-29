@@ -1,8 +1,8 @@
-package com.yunva.kafka.producer.Impl;
+package com.it.jxnu.kafka.producer.Impl;
 
-import com.yunva.kafka.producer.KafkaProducer;
-import com.yunva.kafka.producer.ProducerConfig;
-import com.yunva.utill.ObjectUtils;
+import com.it.jxnu.kafka.producer.KafkaProducer;
+import com.it.jxnu.kafka.producer.ProducerConfig;
+import com.it.jxnu.utill.ObjectUtils;
 import kafka.javaapi.producer.Producer;
 import kafka.producer.KeyedMessage;
 import org.slf4j.Logger;

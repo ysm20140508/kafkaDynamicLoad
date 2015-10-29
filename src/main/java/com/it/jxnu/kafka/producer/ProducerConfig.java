@@ -1,4 +1,4 @@
-package com.yunva.kafka.producer;
+package com.it.jxnu.kafka.producer;
 
 /**
  * Created by Administrator on 2015-07-07.

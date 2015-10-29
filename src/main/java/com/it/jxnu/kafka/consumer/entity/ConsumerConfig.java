@@ -1,4 +1,4 @@
-package com.yunva.kafka.consumer.entity;
+package com.it.jxnu.kafka.consumer.entity;
 
 /**
  * Created by Administrator on 2015-07-07.

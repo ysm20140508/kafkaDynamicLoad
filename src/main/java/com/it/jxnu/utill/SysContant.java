@@ -1,4 +1,4 @@
-package com.yunva.utill;
+package com.it.jxnu.utill;
 
 /**
  * Created by Administrator on 2015-08-29.

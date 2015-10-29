@@ -1,17 +1,12 @@
-package com.yunva;
+package com.it.jxnu;
 
-import com.yunva.business.dao.JdbcUtils;
-import com.yunva.kafka.consumer.entity.ConsumerConfig;
-import com.yunva.kafka.consumer.factory.ConsumerThread;
-import com.yunva.zookeeper.ZookeeperClient;
+import com.it.jxnu.kafka.consumer.entity.ConsumerConfig;
+import com.it.jxnu.business.dao.JdbcUtils;
+import com.it.jxnu.zookeeper.ZookeeperClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 
 /**
