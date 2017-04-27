@@ -70,6 +70,5 @@ public class DateInsertion extends Thread {
 
     public void stopThread() {
         isRunning = false;
-        this.interrupt();
     }
 }

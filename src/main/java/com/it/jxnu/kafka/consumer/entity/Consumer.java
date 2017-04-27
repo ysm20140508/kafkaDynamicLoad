@@ -63,7 +63,6 @@ public class Consumer extends Thread {
     public void stopThread() {
         Running = false;
         this.connector.shutdown();
-        this.interrupt();
     }
 }
 
