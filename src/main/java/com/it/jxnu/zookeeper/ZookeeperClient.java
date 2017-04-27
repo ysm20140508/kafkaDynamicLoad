@@ -3,6 +3,7 @@ package com.it.jxnu.zookeeper;
 import com.it.jxnu.business.model.ConsumerTopic;
 import com.it.jxnu.kafka.consumer.entity.Consumer;
 import com.it.jxnu.kafka.consumer.entity.ConsumerConfig;
+import com.it.jxnu.kafka.consumer.entity.DateInsertion;
 import com.it.jxnu.kafka.consumer.factory.ThreadFactory;
 import com.it.jxnu.business.dao.JdbcUtils;
 import com.it.jxnu.kafka.consumer.entity.ConsumerTemplate;
@@ -75,10 +76,13 @@ public class ZookeeperClient implements Watcher {
             Map<String, Integer> topicMap = new HashMap<String, Integer>();
             for (String key : (Set<String>) ThreadFactory.getIntstant().keySet()) {
                 String threadName = key;
-                if (!ThreadFactory.getIntstant().containsKey(key)) continue;
-                Consumer consumer = (Consumer) ThreadFactory.getIntstant().get(key);
-                consumer.stopThread();
+                Thread thread = (Thread) ThreadFactory.getIntstant().get(key);
                 ThreadFactory.getIntstant().remove(threadName);
+                if (thread instanceof DateInsertion) {
+                    ((DateInsertion) thread).stopThread();
+                } else if (thread instanceof Consumer) {
+                    ((Consumer) thread).stopThread();
+                }
             }
             for (String children : childrenList) {
                 if (StringUtils.isNotEmpty(children) && !ThreadFactory.getIntstant().containsKey(children)) {

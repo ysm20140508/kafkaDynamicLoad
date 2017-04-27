@@ -19,7 +19,7 @@ public class Consumer extends Thread {
     private final Logger logger = LoggerFactory.getLogger(Consumer.class);
     private ConsumerConnector connector;
     private JdbcUtils jdbcUtils;
-    private boolean Running = true;
+    private volatile boolean Running = true;
     private Map<String, Integer> topicMap;
     private Map<String, ConsumerTemplate> consumerTemplateMap;
 
@@ -51,6 +51,7 @@ public class Consumer extends Thread {
                 if (index < threads && Running) {
                     Thread thread = new DateInsertion(stream, jdbcUtils, tableName, fieldName, insertLimit, insertHeartbeat);
                     ThreadFactory.getThread().execute(thread);
+                    ThreadFactory.getIntstant().put(tableName, thread);
                 }
             }
         }
